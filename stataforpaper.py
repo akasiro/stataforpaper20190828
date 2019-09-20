@@ -77,13 +77,20 @@ def judge_star(sig,stardict = {0.1:'+',0.05:'*',0.01:'**',0.001:'***'}):
         star = stardict[judge_range[temp.index(sig)]]
     return star
 
-
-if __name__ == '__main__':
-    data = pd.read_csv('test.csv')
-    col = None
-    r = describe_table(data = data,col = col)
-    with pd.ExcelWriter('result.xlsx') as writer:
+def describeoutput(filepath,data, **kwargs):
+    r = describe_table(data = data, **kwargs)
+    with pd.ExcelWriter(filepath) as writer:
         r[0].to_excel(writer,sheet_name= 'description_table', index= False)
         r[1].to_excel(writer,sheet_name= 'description_table_nosig', index= False)
         r[2].to_excel(writer, sheet_name='description_table_full', index=False)
+
+if __name__ == '__main__':
+    data = pd.read_csv('test.csv')
+    # col = None
+    # r = describe_table(data = data,col = col)
+    # with pd.ExcelWriter('result.xlsx') as writer:
+    #     r[0].to_excel(writer,sheet_name= 'description_table', index= False)
+    #     r[1].to_excel(writer,sheet_name= 'description_table_nosig', index= False)
+    #     r[2].to_excel(writer, sheet_name='description_table_full', index=False)
+    describeoutput('result.xlsx',data)
 
